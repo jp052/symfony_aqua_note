@@ -5,6 +5,9 @@
 {% block body %}
 <h1>The Genus {{ name }}</h1>
 
+    {# | raw stops twig from auto escaping html, only use in special cases#}
+<p>Fun Fact: {{ funFact | raw }}</p>
+
 <ul>
 
     {% for note in notes %}
