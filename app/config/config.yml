@@ -35,6 +35,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    number_format:
+        thousands_separator: '.'
 
 # Doctrine Configuration
 doctrine:
@@ -69,3 +71,8 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+doctrine_cache:
+    providers:
+        my_markdown_cache:
+            type: file_system

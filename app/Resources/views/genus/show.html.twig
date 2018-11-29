@@ -11,10 +11,16 @@
             <dl class="genus-details-list">
                 <dt>Subfamily:</dt>
                 <dd>Octopodinae</dd>
+                <dt>Value custom filter:</dt>
+                <dd>{{ 12299 | customCurrencyFilter }}</dd>
+                <dt>Value custom filter parameters:</dt>
+                <dd>{{ 12299 | customCurrencyFilter(2, ',', '.') }}</dd>
+                <dt>Value custom twig function:</dt>
+                <dd>{{ customCurrencyFunction(25477) }}</dd>
                 <dt>Known Species:</dt>
-                <dd>289</dd>
+                <dd>{{ 99999 | number_format}}</dd>
                 <dt>Fun Fact:</dt>
-                <dd>Octopuses can change the color of their body in just three-tenths of a second!</dd>
+                <dd>{{ funFact | raw }}</dd>
             </dl>
         </div>
     </div>

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 
             //3rd party
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
 
             //custom
             new AppBundle\AppBundle(),
