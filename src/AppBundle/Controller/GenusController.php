@@ -10,12 +10,27 @@ class GenusController extends Controller
 
 {
     /**
-     * @Route("/genus/{genusName}")
+     * @Route("/genus/{genusName}", name="tset")
+     * @param $genusName
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($genusName)
 
     {
         $funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';
+
+        //cache every marked down sentence to get better performance
+        $cache = $this->get('doctrine_cache.providers.my_markdown_cache');
+        $key = md5($funFact);
+        if ($cache->contains($key)) {
+            $funFact = $cache->fetch($key);
+        } else {
+            sleep(1);
+            $funFact = $this->get('markdown.parser')
+                ->transform($funFact);
+            $cache->save($key, $funFact);
+        }
+
 
         //quick access to container via just using get
         $funFact = $this->get('markdown.parser')
@@ -30,8 +45,11 @@ class GenusController extends Controller
     }
 
     //Sensio @Method("GET") doesnt work, so use symfony core @Route functionality
+
     /**
      * @Route("/genus/{genusName}/notes", name="genus_show_notes", methods={"GET"})
+     * @param $genusName
+     * @return JsonResponse
      */
     public function getNotesAction($genusName) {
         $notes = [

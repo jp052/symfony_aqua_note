@@ -26,7 +26,7 @@ class AppExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new TwigFunction('customCurrencyFunction', array($this, 'formatCustomCurrencyFunction',))
+            new TwigFunction('customCurrencyFunction', array($this, 'formatCustomCurrencyFunction'))
         );
     }
 
