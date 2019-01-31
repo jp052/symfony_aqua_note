@@ -27,13 +27,27 @@ class GenusController extends Controller
         return new Response('Genus created');
     }
 
+    /** @Route("/genuses")
+     * @return Response
+     */
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $genuses = $em->getRepository('AppBundle:Genus')
+            ->findAll();
+
+        return $this->render('genus/list.html.twig', [
+            'genuses' => $genuses,
+        ]);
+
+    }
+
     /**
-     * @Route("/genus/{genusName}", name="tset")
+     * @Route("/genus/{genusName}")
      * @param $genusName
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($genusName)
-
     {
         $funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';
 
@@ -52,8 +66,7 @@ class GenusController extends Controller
 
         //quick access to container via just using get
         $funFact = $this->get('markdown.parser')
-                ->transform($funFact);
-
+            ->transform($funFact);
 
 
         return $this->render('genus/show.html.twig', array(
@@ -69,11 +82,30 @@ class GenusController extends Controller
      * @param $genusName
      * @return JsonResponse
      */
-    public function getNotesAction($genusName) {
+    public function getNotesAction($genusName)
+    {
         $notes = [
-            ['id' => 1, 'username' => 'AquaPelham', 'avatarUri' => '/images/leanna.jpeg', 'note' => 'Octopus asked me a riddle, outsmarted me', 'date' => 'Dec. 10, 2015'],
-            ['id' => 2, 'username' => 'AquaWeaver', 'avatarUri' => '/images/ryan.jpeg', 'note' => 'I counted 8 legs... as they wrapped around me', 'date' => 'Dec. 1, 2015'],
-            ['id' => 3, 'username' => 'AquaPelham', 'avatarUri' => '/images/leanna.jpeg', 'note' => 'Inked!', 'date' => 'Aug. 20, 2015'],
+            [
+                'id' => 1,
+                'username' => 'AquaPelham',
+                'avatarUri' => '/images/leanna.jpeg',
+                'note' => 'Octopus asked me a riddle, outsmarted me',
+                'date' => 'Dec. 10, 2015'
+            ],
+            [
+                'id' => 2,
+                'username' => 'AquaWeaver',
+                'avatarUri' => '/images/ryan.jpeg',
+                'note' => 'I counted 8 legs... as they wrapped around me',
+                'date' => 'Dec. 1, 2015'
+            ],
+            [
+                'id' => 3,
+                'username' => 'AquaPelham',
+                'avatarUri' => '/images/leanna.jpeg',
+                'note' => 'Inked!',
+                'date' => 'Aug. 20, 2015'
+            ],
         ];
 
         $data = [
