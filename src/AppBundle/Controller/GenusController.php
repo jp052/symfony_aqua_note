@@ -2,13 +2,31 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Genus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GenusController extends Controller
 
 {
+    /**
+     * @Route("/genus/new")
+     */
+    public function newAction()
+    {
+        $genus = new Genus();
+        $genus->setName('Octopus' . rand(1, 100));
+        $genus->setSubFamily('Octopedia');
+        $genus->setSpeciesCount(rand(100, 9999));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($genus);
+        $em->flush();
+
+        return new Response('Genus created');
+    }
+
     /**
      * @Route("/genus/{genusName}", name="tset")
      * @param $genusName
