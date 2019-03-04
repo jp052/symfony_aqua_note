@@ -27,7 +27,7 @@ class GenusController extends Controller
         return new Response('Genus created');
     }
 
-    /** @Route("/genuses")
+    /** @Route("/genus")
      * @return Response
      */
     public function listAction()
