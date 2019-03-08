@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Genus;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,16 +44,24 @@ class GenusController extends Controller
     }
 
     /**
-     * @Route("/genus/{genusName}")
+     * @Route("/genus/{genusName}", name="genus_show")
      * @param $genusName
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($genusName)
     {
-        $funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';
+        $em = $this->getDoctrine()->getManager();
+        $genusRepo = $em->getRepository('AppBundle:Genus');
+        $genus = $genusRepo->findOneBy(['name' => $genusName]);
+
+        if(!$genus) {
+            throw $this->createNotFoundException('genus not found');
+        }
+
 
         //cache every marked down sentence to get better performance
-        $cache = $this->get('doctrine_cache.providers.my_markdown_cache');
+        //TODO JP: activate caching again
+        /*$cache = $this->get('doctrine_cache.providers.my_markdown_cache');
         $key = md5($funFact);
         if ($cache->contains($key)) {
             $funFact = $cache->fetch($key);
@@ -63,15 +72,14 @@ class GenusController extends Controller
             $cache->save($key, $funFact);
         }
 
-
         //quick access to container via just using get
         $funFact = $this->get('markdown.parser')
             ->transform($funFact);
+        */
 
 
         return $this->render('genus/show.html.twig', array(
-            'name' => $genusName,
-            'funFact' => $funFact
+            'genus' => $genus,
         ));
     }
 
